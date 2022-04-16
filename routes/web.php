@@ -107,6 +107,29 @@ Route::prefix('/')->middleware('auth')->group(
                 Route::post('/{id}/vendor/cetak', [\App\Http\Controllers\VendorController::class, 'cetakPenilaian']);
             }
         );
+		
+		Route::prefix('/perlem')->group(
+            function () {
+                Route::get('/', [\App\Http\Controllers\PerlemController::class, 'index']);
+                Route::get('/datatable', [\App\Http\Controllers\PerlemController::class, 'datatable']);
+                Route::get('/datatable/vendor/{id}', [\App\Http\Controllers\PerlemController::class, 'datatableByVendorId']);
+//                Route::get('/detail/{id}', [\App\Http\Controllers\ScoreController::class, 'detail']);
+                Route::get('/detail/{id}/comulative', [\App\Http\Controllers\PerlemController::class, 'getComutative']);
+                Route::post('/upload', [\App\Http\Controllers\PerlemController::class, 'uploadFile']);
+                Route::post('/add-note', [\App\Http\Controllers\PerlemController::class, 'addNote']);
+                Route::get('/results', [\App\Http\Controllers\PerlemController::class, 'getScore']);
+                Route::get('/last-update', [\App\Http\Controllers\PerlemController::class, 'lastUpdate']);
+                Route::get('/radar', [\App\Http\Controllers\PerlemController::class, 'getRadarChart']);
+                Route::post('/set-score', [\App\Http\Controllers\PerlamController::class, 'setScore']);
+              
+                Route::get('/get-history', [\App\Http\Controllers\PerlemController::class, 'getScoreHistory']);
+                Route::get('/get-historyawal', [\App\Http\Controllers\PerlemController::class, 'getScoreHistoryawal']);
+                Route::get('/get-all-cumulative', [\App\Http\Controllers\PerlemController::class, 'getAllCumulative']);
+                Route::get('/get-last-history', [\App\Http\Controllers\PerlemController::class, 'getLastScoreHistory']);
+                Route::get('/{id}/vendor', [\App\Http\Controllers\VendorController::class, 'detailVendor']);
+                Route::post('/{id}/vendor/cetak', [\App\Http\Controllers\VendorController::class, 'cetakPenilaian']);
+            }
+        );
 
 //        Route::prefix('/scoring')->group(
 //            function () {
