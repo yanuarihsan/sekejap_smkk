@@ -68,10 +68,10 @@
                 $.each(data, function(key, value) {
                     // vendor.append(elVendor(value));
                     ongoing += value['package_vendor_going'].length;
-                    vendor.append(' <div class="items-tab col-3 mb-4"><a href="/penilaian/' + value[
+                    vendor.append(' <div class="col-md-3 col-sm-6 mb-4"><a href="/penilaian/' + value[
                             'id'] +
                         '/vendor" class="card-vendor d-block c-text card-user" id="">\n' +
-                        '                    <div class="d-flex justify-content-left">\n' +
+                        '                    <div class="d-flex justify-content-left w-100">\n' +
                         '                        <div class="div-image"> <img src="' + value['image'] +
                         '" onerror="this.onerror=null; this.src=\'{{ asset('/images/noimage.png') }}\'"/> </div>\n' +
                         '<div class="d-flex flex-column w-100  justify-content-between" style="height: 130px"> ' +
