@@ -9,6 +9,7 @@ use App\Models\Package;
 use App\Models\PackageDetail;
 use App\Models\PPK;
 use App\Models\Vendor;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
@@ -21,7 +22,11 @@ class PackageController extends CustomController
 
     public function datatable()
     {
-        $data = Package::with(['vendor.vendor', 'ppk'])->get();
+        $now = Carbon::now()->isoFormat('YYYY-MM-DD');
+        $data = Package::with(['vendor.vendor', 'ppk'])
+            ->where('finish_at', '>=', $now)
+            ->where('start_at', '<=', $now)
+            ->get();
         return DataTables::of($data)->make(true);
     }
 
