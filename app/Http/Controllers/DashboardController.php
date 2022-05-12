@@ -8,6 +8,7 @@ use App\Models\PPK;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 
 class DashboardController extends Controller
@@ -75,12 +76,8 @@ class DashboardController extends Controller
             });
         }
         if ($tahun !== '') {
-            $start = $tahun . '-01-01';
-            $end = $tahun . '-12-31';
-            $data->where(function ($query) use ($start, $end) {
-                $query->whereBetween('start_at', [$start, $end])
-                    ->orWhereBetween('finish_at', [$start, $end]);
-            });
+            $data->where(DB::raw('YEAR(start_at)'), '<=', $tahun)
+                ->where(DB::raw('YEAR(finish_at)'), '>=', $tahun);
         }
         $data = $data->get();
         return DataTables::of($data)->make(true);
