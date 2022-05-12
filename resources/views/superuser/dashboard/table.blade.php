@@ -10,19 +10,33 @@
 
 @elseif($data == 'script')
     <script>
+        var table;
         $(document).ready(function () {
-            datatable()
-
-        })
+            datatable();
+            $('#year-list').on('change', function () {
+                table.ajax.reload();
+            });
+        });
 
         function datatable() {
 
             var url = '/datatable-package-ongoing';
-            var table = $('#table').DataTable({
+            table = $('#table').DataTable({
                 destroy: true,
                 processing: true,
                 serverSide: true,
-                ajax: url,
+                ajax: {
+                    url: url,
+                    'data': function (d) {
+                        return $.extend(
+                            {},
+                            d,
+                            {
+                                'tahun': $('#year-list').val(),
+                            },
+                        );
+                    }
+                },
                 "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
                     // debugger;
                     var numStart = this.fnPagingInfo().iStart;
@@ -32,14 +46,45 @@
                     return nRow;
                 },
                 columnDefs: [
-                    {"title": "#", "searchable": false, "orderable": false, "targets": 0, "className": "text-center", "width": "100"},
+                    {
+                        "title": "#",
+                        "searchable": false,
+                        "orderable": false,
+                        "targets": 0,
+                        "className": "text-center",
+                        "width": "100"
+                    },
                     {"title": "Paket", 'targets': 1, 'searchable': true, 'orderable': true, "className": "text-center"},
-                    {"title": "No. Kontrak", 'targets': 2, 'searchable': true, 'orderable': true, "className": "text-center"},
-                    {"title": "Tanggal Kontrak", 'targets': 3, 'searchable': true, 'orderable': true, "className": "text-center"},
+                    {
+                        "title": "No. Kontrak",
+                        'targets': 2,
+                        'searchable': true,
+                        'orderable': true,
+                        "className": "text-center"
+                    },
+                    {
+                        "title": "Tanggal Kontrak",
+                        'targets': 3,
+                        'searchable': true,
+                        'orderable': true,
+                        "className": "text-center"
+                    },
                     {"title": "PPK", 'targets': 4, 'searchable': true, 'orderable': true, "className": "text-center"},
-                    {"title": "Penyedia Jasa", 'targets': 5, 'searchable': true, 'orderable': true, "className": "text-center"},
+                    {
+                        "title": "Penyedia Jasa",
+                        'targets': 5,
+                        'searchable': true,
+                        'orderable': true,
+                        "className": "text-center"
+                    },
                     {"title": "Mulai", 'targets': 6, 'searchable': true, 'orderable': true, "className": "text-center"},
-                    {"title": "Selesai", 'targets': 7, 'searchable': true, 'orderable': true, "className": "text-center"},
+                    {
+                        "title": "Selesai",
+                        'targets': 7,
+                        'searchable': true,
+                        'orderable': true,
+                        "className": "text-center"
+                    },
                 ],
 
                 columns: [

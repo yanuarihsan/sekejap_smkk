@@ -14,8 +14,9 @@ class DashboardController extends Controller
 {
     //
 
-    public function index(){
-        if (\auth()->user()->roles[0] == 'vendor'){
+    public function index()
+    {
+        if (\auth()->user()->roles[0] == 'vendor') {
             $vendor = new VendorController();
             return $vendor->detailVendor(Auth::id());
         }
@@ -53,9 +54,9 @@ class DashboardController extends Controller
     public function getAllCountData()
     {
         $data = [
-            'user'      => $this->getAllCountUser(),
-            'package'   => $this->getAllCountPackage(),
-            'ppk'       => $this->getAllCountPPK(),
+            'user' => $this->getAllCountUser(),
+            'package' => $this->getAllCountPackage(),
+            'ppk' => $this->getAllCountPPK(),
             'indicator' => $this->getAllCountIndikator(),
         ];
 
@@ -64,12 +65,21 @@ class DashboardController extends Controller
 
     public function datatable()
     {
+        $tahun = \request()->query->get('tahun');
         $data = Package::with(['vendor.vendor', 'ppk']);
-        if (Auth::user()->roles[0] == 'vendor'){
-            $data = $data->where('vendor_id','=',Auth::id());
-        }elseif (Auth::user()->roles[0] == 'accessorppk'){
-            $data = $data->whereHas('ppk.accessorppk', function ($query){
-                $query->where('user_id','=', Auth::id());
+        if (Auth::user()->roles[0] == 'vendor') {
+            $data = $data->where('vendor_id', '=', Auth::id());
+        } elseif (Auth::user()->roles[0] == 'accessorppk') {
+            $data = $data->whereHas('ppk.accessorppk', function ($query) {
+                $query->where('user_id', '=', Auth::id());
+            });
+        }
+        if ($tahun !== '') {
+            $start = $tahun . '-01-01';
+            $end = $tahun . '-12-31';
+            $data->where(function ($query) use ($start, $end) {
+                $query->whereBetween('start_at', [$start, $end])
+                    ->orWhereBetween('finish_at', [$start, $end]);
             });
         }
         $data = $data->get();

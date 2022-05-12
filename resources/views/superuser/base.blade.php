@@ -46,10 +46,10 @@
 
         <div class="d-flex align-items-center" style="justify-content: space-between">
             <div class="me-3">
-                <select class="select-paket" id="package-list" style="background-color: #34506e; border-color: #1d3752;">
+                <select class="select-paket" id="year-list" style="background-color: #34506e; border-color: #1d3752;">
                     <option value="">Pilih Tahun</option>
                     @foreach (getPackageYear() as $v)
-                        <option value="{{ $v }}">{{ $v }}</option>
+                        <option value="{{ $v }}" {{ $v == getCurrentYear() ? 'selected' : '' }}>{{ $v }}</option>
                     @endforeach
                 </select>
             </div>

@@ -1,9 +1,14 @@
 <?php
+
+use Carbon\Carbon;
+
 function getPackageYear()
 {
     try {
+
         $data = \App\Models\Package::all();
-        $tmpResult = [];
+
+        $tmpResult = [getCurrentYear()];
         foreach ($data as $v) {
             $start_at = substr($v->start_at, 0, 4);
             $finish_at = substr($v->finish_at, 0, 4);
@@ -16,4 +21,9 @@ function getPackageYear()
         $result = [];
     }
     return $result;
+}
+
+function getCurrentYear() {
+    $now = Carbon::now()->isoFormat('YYYY-MM-DD');
+    return substr($now, 0, 4);
 }
