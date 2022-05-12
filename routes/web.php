@@ -105,6 +105,7 @@ Route::prefix('/')->middleware('auth')->group(
                 Route::get('/get-last-history', [\App\Http\Controllers\ScoreController::class, 'getLastScoreHistory']);
                 Route::get('/{id}/vendor', [\App\Http\Controllers\VendorController::class, 'detailVendor']);
                 Route::post('/{id}/vendor/cetak', [\App\Http\Controllers\VendorController::class, 'cetakPenilaian']);
+                Route::get('/{id}/vendor/package', [\App\Http\Controllers\VendorController::class, 'get_vendor_package_by_year']);
             }
         );
 

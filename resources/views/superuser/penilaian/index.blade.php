@@ -143,9 +143,9 @@
                                 <div>
                                     <select class="select-paket" id="package-list">
                                         <option value="">Pilih Paket</option>
-                                        @foreach ($data as $v)
-                                            <option value="{{ $v->id }}">{{ $v->name }}</option>
-                                        @endforeach
+                                        {{--                                        @foreach ($data as $v)--}}
+                                        {{--                                            <option value="{{ $v->id }}">{{ $v->name }}</option>--}}
+                                        {{--                                        @endforeach--}}
                                     </select>
                                 </div>
                             </div>
@@ -517,6 +517,7 @@
         var roles = '{{ auth()->user()->roles[0] }}';
         var index = 'vendor';
         var _histId = '';
+        var _vId = '{{ $vendor->id }}';
         google.charts.load("current", {
             packages: ["corechart"]
         });
@@ -955,11 +956,11 @@
                 file_after,
                 note_after,
                 file_before,
-				type,
-				package_id,
-				sub_indicator_id
+                type,
+                package_id,
+                sub_indicator_id
             } = data;
-			
+
             let sa = '';
             let sb = '';
             switch (score_after) {
@@ -1002,14 +1003,14 @@
             let elNoteBefore = note_before !== null ? note_before : '-';
             let elNoteAfter = note_after !== null ? note_after : '-';
             let date = getDateOnlyString(new Date(created_at));
-			let scoreawal = $.get('/penilaian/get-historyawal?package=' + package_id + '&type=' + type + '&sub=' +
-                    sub_indicator_id);
-			//let tglawal = getCurrentDateString(new Date(scoreawal['data']['updated_at']));
-			 // let name = scoreawal['data']['sub_indicator']['name'];
+            let scoreawal = $.get('/penilaian/get-historyawal?package=' + package_id + '&type=' + type + '&sub=' +
+                sub_indicator_id);
+            //let tglawal = getCurrentDateString(new Date(scoreawal['data']['updated_at']));
+            // let name = scoreawal['data']['sub_indicator']['name'];
             return '<div class="d-flex mb-2">' +
                 '<p class="font-date-history" style="margin-right: 10px">' + date + '</p>' +
                 '<div class="flex-grow-1">' +
-             //   '<p class="font-date-history">' + name + '</p>' +
+                //   '<p class="font-date-history">' + name + '</p>' +
                 '<div class="row">' +
                 '<div class="col-6">' +
                 '<p class="font-date-history mb-0" style="font-weight: bold">Penilaian Awal</p>' +
@@ -1109,7 +1110,7 @@
                 // await getHistoryScore(index);
             } catch (e) {
                 alert('Terjadi Kesalahan Server...')
-            }  
+            }
         }
 
         var radarChart;
@@ -1182,7 +1183,7 @@
                         stepSize: 2,
                     },
                     animation: {
-                        onComplete: function() {
+                        onComplete: function () {
                             $('#hidden_html').val(radarChart.toBase64Image());
                         }
                     }
@@ -1314,6 +1315,10 @@
 
         $(document).ready(function () {
             breadcrumb();
+            getPackageVendorByYear();
+            $('#year-list').on('change', function () {
+                getPackageVendorByYear();
+            });
             $('#package-list').on('change', function () {
                 package_id = $(this).val();
                 $('#hidden_package').val(package_id);
@@ -1523,6 +1528,22 @@
                 }
             })
             return false;
+        }
+
+        async function getPackageVendorByYear() {
+            try {
+                let tahun = $('#year-list').val();
+                let response = await $.get('/penilaian/' + _vId + '/vendor/package?tahun=' + tahun);
+                console.log(response);
+                let el = $('#package-list');
+                el.empty();
+                el.append('<option value="" selected>Pilih Paket</option>');
+                $.each(response, function (k, v) {
+                    el.append('<option value="' + v['id'] + '">' + v['name'] + '</option>')
+                })
+            } catch (e) {
+                console.log(e)
+            }
         }
     </script>
 

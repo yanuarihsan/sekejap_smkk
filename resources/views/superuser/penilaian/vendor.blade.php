@@ -31,14 +31,15 @@
                         <input class="form-control" type="text" name="name" id="txtCari"
                                style="border-top-right-radius: 0;border-bottom-right-radius: 0;"
                                value="{{ request('name') }}" placeholder="Cari Vendor">
-                        <button class="btn btn-primary me-3" style="border-top-left-radius: 0;border-bottom-left-radius: 0;"
+                        <button class="btn btn-primary me-3"
+                                style="border-top-left-radius: 0;border-bottom-left-radius: 0;"
                                 type="submit"><i class='bx bx-search-alt-2'></i></button>
                     </div>
                 </form>
 
             </div>
 
-            <div role="tablist"  id="tablist">
+            <div role="tablist" id="tablist">
                 <div id="menu-vendor" class="row">
 
                 </div>
@@ -48,8 +49,11 @@
 @endsection
 @section('script')
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             getVendor();
+            $('#year-list').on('change', function () {
+                getVendor();
+            });
         });
 
         function cariVendor() {
@@ -60,12 +64,13 @@
 
         function getVendor(form) {
             var vendor = $('#menu-vendor');
+            let tahun = $('#year-list').val();
             vendor.empty();
-            $.get('/vendor',form, function(data) {
+            $.get('/vendor?tahun=' + tahun, form, function (data) {
                 console.log(data);
                 let allVendor = data.length;
                 let ongoing = 0;
-                $.each(data, function(key, value) {
+                $.each(data, function (key, value) {
                     // vendor.append(elVendor(value));
                     ongoing += value['package_vendor_going'].length;
                     vendor.append(' <div class="col-md-3 col-sm-6 mb-4"><a href="/penilaian/' + value[

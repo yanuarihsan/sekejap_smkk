@@ -31,7 +31,11 @@ class VendorController extends CustomController
     public function getVendorPackage()
     {
         $roles = auth()->user()->roles[0];
-        $package = User::with(['vendor', 'packageVendorGoing'])->vendor(request('name'))->whereJsonContains('roles', 'vendor');
+        $tahun = \request()->query->get('tahun');
+        $package = User::with(['vendor', 'packageVendorGoing' => function ($q) use ($tahun) {
+            $q->where(DB::raw('YEAR(package.start_at)'), '<=', $tahun)
+                ->where(DB::raw('YEAR(finish_at)'), '>=', $tahun);
+        }])->vendor(request('name'))->whereJsonContains('roles', 'vendor');
 //        if ($roles == 'accessor'){
 ////            $package = $package->has('package');
 //        }else if ($roles == 'admin' ||$roles == 'superadmin'){
@@ -86,8 +90,8 @@ class VendorController extends CustomController
         }
         return view('superuser/penilaian/index')->with(['data' => $data, 'vendor' => $vendor]);
     }
-	
-	public function detailPerlemVendor($id)
+
+    public function detailPerlemVendor($id)
     {
         $vendor = User::with('vendor')->where('id', $id)->firstOrFail();
         $data = Package::with(['vendor'])
@@ -100,7 +104,7 @@ class VendorController extends CustomController
         }
         return view('superuser/penilaian/perlem')->with(['data' => $data, 'vendor' => $vendor]);
     }
-	
+
     public function detailThisVendor()
     {
         $id = Auth::id();
@@ -132,13 +136,13 @@ class VendorController extends CustomController
         $vendorCumulative['text'] = $this->getCumulativeText($vendorCumulative);
         $tmpArr = [$vendorCumulative['last']->updated_at, $officeCumulative['last']->updated_at, $ppkCumulative['last']->updated_at];
 
-         uasort($tmpArr, function ($a, $b) {
+        uasort($tmpArr, function ($a, $b) {
             return strtotime($b) - strtotime($a);
         });
-         $arrLastUpdate = [];
-         foreach ($tmpArr as $v) {
-             array_push($arrLastUpdate, $v);
-         }
+        $arrLastUpdate = [];
+        foreach ($tmpArr as $v) {
+            array_push($arrLastUpdate, $v);
+        }
         return $this->convertToPdf('superuser.penilaian.cetak', [
             'html' => $html,
             'vendor' => $vendor,
@@ -151,7 +155,7 @@ class VendorController extends CustomController
         ]);
     }
 
-	public function cetakPenilaianPerlem($id)
+    public function cetakPenilaianPerlem($id)
     {
         $html = $this->postField('hidden_html');
         $packageId = $this->postField('hidden_package');
@@ -167,13 +171,13 @@ class VendorController extends CustomController
         $vendorCumulative['text'] = $this->getCumulativeText($vendorCumulative);
         $tmpArr = [$vendorCumulative['last']->updated_at, $officeCumulative['last']->updated_at, $ppkCumulative['last']->updated_at];
 
-         uasort($tmpArr, function ($a, $b) {
+        uasort($tmpArr, function ($a, $b) {
             return strtotime($b) - strtotime($a);
         });
-         $arrLastUpdate = [];
-         foreach ($tmpArr as $v) {
-             array_push($arrLastUpdate, $v);
-         }
+        $arrLastUpdate = [];
+        foreach ($tmpArr as $v) {
+            array_push($arrLastUpdate, $v);
+        }
         return $this->convertToPdf('superuser.penilaian.cetak', [
             'html' => $html,
             'vendor' => $vendor,
@@ -185,7 +189,7 @@ class VendorController extends CustomController
             'vendorCumulative' => $vendorCumulative
         ]);
     }
-	
+
     private function getCumulativeText($cumulative)
     {
         if ($cumulative['cumulative'] < 50) {
@@ -362,16 +366,16 @@ class VendorController extends CustomController
         }
 
         $scoreAll = Score::with('subIndicator')->where('package_id', $packageId)->where('type', $type)->get();
-        $very_bad =  $scoreAll->filter(function ($item) {
+        $very_bad = $scoreAll->filter(function ($item) {
             return $item->score === 1;
         })->values();
-        $bad =  $scoreAll->filter(function ($item) {
+        $bad = $scoreAll->filter(function ($item) {
             return $item->score === 2;
         })->values();
-        $medium =  $scoreAll->filter(function ($item) {
+        $medium = $scoreAll->filter(function ($item) {
             return $item->score === 3;
         })->values();
-        $good =  $scoreAll->filter(function ($item) {
+        $good = $scoreAll->filter(function ($item) {
             return $item->score === 4;
         })->values();
         return [
@@ -384,5 +388,14 @@ class VendorController extends CustomController
         ];
     }
 
+    public function get_vendor_package_by_year($id)
+    {
+        $tahun = \request()->query->get('tahun');
+        return Package::with(['vendor'])
+            ->where('vendor_id', '=', $id)
+            ->where(DB::raw('YEAR(start_at)'), '<=', $tahun)
+            ->where(DB::raw('YEAR(finish_at)'), '>=', $tahun)
+            ->get();
+    }
 
 }
