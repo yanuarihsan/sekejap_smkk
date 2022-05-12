@@ -51,12 +51,16 @@
 @elseif($data == 'script')
     <script>
         $(document).ready(function () {
-            console.log('adadasdad')
-            getCount();
-        })
+            let tahun =  $('#year-list').val();
+            getCount(tahun);
+            $('#year-list').on('change', function () {
+                let value = this.value;
+                getCount(value);
+            });
+        });
 
-        function getCount() {
-            $.get('/get-count-dashboard', function (data) {
+        function getCount(tahun) {
+            $.get('/get-count-dashboard?tahun='+tahun, function (data) {
                 console.log(data)
                 $('#tablist #indicator .number-card').html(data['indicator'])
                 $('#tablist #package .number-card').html(data['package'])

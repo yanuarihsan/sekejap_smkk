@@ -98,7 +98,7 @@ Route::prefix('/')->middleware('auth')->group(
                 Route::get('/last-update', [\App\Http\Controllers\ScoreController::class, 'lastUpdate']);
                 Route::get('/radar', [\App\Http\Controllers\ScoreController::class, 'getRadarChart']);
                 Route::post('/set-score', [\App\Http\Controllers\ScoreController::class, 'setScore']);
-              
+
                 Route::get('/get-history', [\App\Http\Controllers\ScoreController::class, 'getScoreHistory']);
                 Route::get('/get-historyawal', [\App\Http\Controllers\ScoreController::class, 'getScoreHistoryawal']);
                 Route::get('/get-all-cumulative', [\App\Http\Controllers\ScoreController::class, 'getAllCumulative']);
@@ -107,7 +107,7 @@ Route::prefix('/')->middleware('auth')->group(
                 Route::post('/{id}/vendor/cetak', [\App\Http\Controllers\VendorController::class, 'cetakPenilaian']);
             }
         );
-		
+
 		Route::prefix('/perlem')->group(
             function () {
                 Route::get('/', [\App\Http\Controllers\PerlemController::class, 'index']);
@@ -121,7 +121,7 @@ Route::prefix('/')->middleware('auth')->group(
                 Route::get('/last-update', [\App\Http\Controllers\PerlemController::class, 'lastUpdate']);
                 Route::get('/radar', [\App\Http\Controllers\PerlemController::class, 'getRadarChart']);
                 Route::post('/set-score', [\App\Http\Controllers\PerlamController::class, 'setScore']);
-              
+
                 Route::get('/get-history', [\App\Http\Controllers\PerlemController::class, 'getScoreHistory']);
                 Route::get('/get-historyawal', [\App\Http\Controllers\PerlemController::class, 'getScoreHistoryawal']);
                 Route::get('/get-all-cumulative', [\App\Http\Controllers\PerlemController::class, 'getAllCumulative']);

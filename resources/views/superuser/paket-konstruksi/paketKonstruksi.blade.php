@@ -121,7 +121,18 @@
                 destroy: true,
                 processing: true,
                 serverSide: true,
-                ajax: url,
+                ajax: {
+                    url: url,
+                    'data': function (d) {
+                        return $.extend(
+                            {},
+                            d,
+                            {
+                                'tahun': $('#year-list').val(),
+                            },
+                        );
+                    }
+                },
                 "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
                     // debugger;
                     var numStart = this.fnPagingInfo().iStart;
@@ -216,6 +227,9 @@
                 keyboard: false
             });
             datatable();
+            $('#year-list').on('change', function () {
+                table.ajax.reload();
+            });
         });
 
         $('.input-daterange input').each(function () {

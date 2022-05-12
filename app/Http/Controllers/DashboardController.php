@@ -31,11 +31,11 @@ class DashboardController extends Controller
         return $user;
     }
 
-    public function getAllCountPackage()
+    public function getAllCountPackage($tahun)
     {
-        $package = Package::count('*');
-
-        return $package;
+        $package = Package::where(DB::raw('YEAR(start_at)'), '<=', $tahun)
+            ->where(DB::raw('YEAR(finish_at)'), '>=', $tahun)->get();
+        return count($package);
     }
 
     public function getAllCountPPK()
@@ -54,9 +54,10 @@ class DashboardController extends Controller
 
     public function getAllCountData()
     {
+        $tahun = \request()->query->get('tahun');
         $data = [
             'user' => $this->getAllCountUser(),
-            'package' => $this->getAllCountPackage(),
+            'package' => $this->getAllCountPackage($tahun),
             'ppk' => $this->getAllCountPPK(),
             'indicator' => $this->getAllCountIndikator(),
         ];
