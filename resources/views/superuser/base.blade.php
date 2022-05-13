@@ -150,7 +150,21 @@
 
     {{-- <script src="{{ asset('js/myStyle.js') }}"></script> --}}
     <script>
+
+        function checkSessionYear() {
+            let value = sessionStorage.getItem('year');
+            if (value === null || value === undefined) {
+                let year = $('#year-list').val();
+                sessionStorage.setItem('year', year);
+            }else {
+                $('#year-list').val(value);
+            }
+            $('#year-list').on('change', function () {
+                sessionStorage.setItem('year', this.value);
+            });
+        }
         $(document).ready(function() {
+            checkSessionYear();
             broadcum()
             showNotif();
             notifUnread()
