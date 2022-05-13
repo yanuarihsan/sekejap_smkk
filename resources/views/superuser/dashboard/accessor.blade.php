@@ -69,6 +69,9 @@
         $(document).ready(function () {
             getVendor();
             countClaim();
+            $('#year-list').on('change', function () {
+                getVendor();
+            });
         });
 
         function elVendor(data) {
@@ -85,8 +88,9 @@
 
         function getVendor(form) {
             var vendor = $('#menu-vendor');
+            let tahun = $('#year-list').val();
             vendor.empty();
-            $.get('/vendor', form, function (data) {
+            $.get('/vendor?tahun=' + tahun, form, function (data) {
                 let allVendor = data.length;
                 let ongoing = 0;
                 $.each(data, function (key, value) {
