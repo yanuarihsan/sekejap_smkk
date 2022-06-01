@@ -306,7 +306,7 @@
                     '                                    <select class="me-2" style="width: 100%" aria-label="Default select example" id="selectPPK" name="selectPPK" required>\n' +
                     '                                    </select>\n' +
                     '                                </div>')
-                getSelect('selectPPK', '/ppk/get-all', 'name', $(this).data('ppk'))
+                getSelect('selectPPK', prefix_url+'/ppk/get-all', 'name', $(this).data('ppk'))
                 $('#selectPPK').select2({
                     dropdownParent: $('#tambahdata')
                 });

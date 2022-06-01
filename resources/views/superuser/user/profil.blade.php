@@ -279,7 +279,7 @@
                         var target;
                         if (roles === 'vendor') {
                             urlpast = '/?st=past';
-                            url = '/';
+                            url = prefix_url+'/';
                             target = 'target="_blank"'
                         }
                         $('#cardCount').append('<a class=""  ' + target + ' href="' + url +

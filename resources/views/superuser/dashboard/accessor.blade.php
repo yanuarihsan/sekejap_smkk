@@ -75,7 +75,7 @@
         });
 
         function elVendor(data) {
-            return '<a href="/penilaian?vendor=' + data['id'] + '" class="card-vendor-2 d-block c-text card-user">' +
+            return '<a href='+prefix_url+'"/penilaian?vendor=' + data['id'] + '" class="card-vendor-2 d-block c-text card-user">' +
                 'abcd' +
                 '</a>';
         }

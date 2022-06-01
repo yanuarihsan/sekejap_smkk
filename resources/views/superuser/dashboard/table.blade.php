@@ -20,7 +20,7 @@
 
         function datatable() {
 
-            var url = '/datatable-package-ongoing';
+            var url = prefix_url+'/datatable-package-ongoing';
             table = $('#table').DataTable({
                 destroy: true,
                 processing: true,

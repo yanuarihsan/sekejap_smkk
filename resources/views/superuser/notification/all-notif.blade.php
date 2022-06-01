@@ -56,7 +56,7 @@
         });
 
         function showNotifAll() {
-            $.get('/show-notif?score='+score, function (data) {
+            $.get(prefix_url+'/show-notif?score='+score, function (data) {
                 $('#cardNotif').empty()
                 if (data[0]) {
                     $.each(data, function (key, value) {
@@ -66,7 +66,7 @@
                         var senderName = value['sender']['vendor'] ? value['sender']['vendor']['name'] : value['sender']['data']['name'];
                         var tipeRole = type ?? 'vendor';
                         $('#cardNotif').append('<div>\n' +
-                            '                        <a class="notifdiv  ' + read + '" style="width: 100%" href="/peringatan/' + tipeRole + '/' + id + '">\n' +
+                            '                        <a class="notifdiv  ' + read + '" style="width: 100%" href="'+prefix_url+'/peringatan/' + tipeRole + '/' + id + '">\n' +
                             '                            <div class="div-image">\n' +
                             '                                <img\n' +
                             '                                    src="' + img + '" onerror="this.onerror=null; this.src=\'{{ asset('/images/noimage.png') }}\'"/>\n' +

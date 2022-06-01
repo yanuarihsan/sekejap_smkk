@@ -208,7 +208,7 @@
                             <textarea class="form-control" id="faktorupdate" rows="3" readonly></textarea>
                         </div>
                         <div class="form-group mb-3">
-                            <form action="/penilaian/{{ $vendor->id }}/vendor/cetak" method="post" id="form-cetak">
+                            <form action="{{ env('prefix_url') }}/penilaian/{{ $vendor->id }}/vendor/cetak" method="post" id="form-cetak">
                                 @csrf
                                 <input type="hidden" name="hidden_html" id="hidden_html">
                                 <input type="hidden" name="hidden_package" id="hidden_package">
@@ -527,13 +527,12 @@
             $('#brodcum').html('');
             let bread = '';
             if (lok1) {
-                console.log('testtis');
                 bread =
-                    "<a href='/' class='me-1'><span><i class='bx bx-home me-1 t-text-color2'></i></span> Dashboard</a> <i class='bx bx-chevron-right me-1 c-text'></i> <a class='me-1' href='/" +
+                    "<a href="+prefix_url+"'/' class='me-1'><span><i class='bx bx-home me-1 t-text-color2'></i></span> Dashboard</a> <i class='bx bx-chevron-right me-1 c-text'></i> <a class='me-1' href="+prefix_url+"'/" +
                     lok1 + "'>" + lok1 +
                     "</a>"
                 if (lok2) {
-                    bread = bread + " <i class='bx bx-chevron-right me-1 c-text'></i> <a class='me-1' href='/" + lok1 +
+                    bread = bread + " <i class='bx bx-chevron-right me-1 c-text'></i> <a class='me-1' href='"+prefix_url+"/" + lok1 +
                         "/" + lok2 +
                         "/" + lok3 +
                         "'>{{ $vendor->vendor->name }}</a>"
@@ -827,13 +826,13 @@
         });
 
         function Save() {
-            saveData('Upload File', 'form', '/penilaian/upload', afterSaveFile)
+            saveData('Upload File', 'form', prefix_url+'/penilaian/upload', afterSaveFile)
             return false;
         }
 
 
         function SaveNote() {
-            saveData('Catatan', 'form-note', '/penilaian/add-note', afterSaveNote)
+            saveData('Catatan', 'form-note', prefix_url+'/penilaian/add-note', afterSaveNote)
             return false;
         }
 
@@ -889,7 +888,7 @@
             }
             try {
                 el.empty();
-                let response = await $.get('/penilaian/results?package=' + package_id + '&type=' + vType);
+                let response = await $.get(prefix_url+'/penilaian/results?package=' + package_id + '&type=' + vType);
                 if (response['code'] === 200) {
                     let data = response['data']['indicator'];
                     el.append(elTable());
@@ -1003,7 +1002,7 @@
             let elNoteBefore = note_before !== null ? note_before : '-';
             let elNoteAfter = note_after !== null ? note_after : '-';
             let date = getDateOnlyString(new Date(created_at));
-            let scoreawal = $.get('/penilaian/get-historyawal?package=' + package_id + '&type=' + type + '&sub=' +
+            let scoreawal = $.get(prefix_url+'/penilaian/get-historyawal?package=' + package_id + '&type=' + type + '&sub=' +
                 sub_indicator_id);
             //let tglawal = getCurrentDateString(new Date(scoreawal['data']['updated_at']));
             // let name = scoreawal['data']['sub_indicator']['name'];
@@ -1050,7 +1049,7 @@
                         break;
                 }
                 el.empty();
-                let response = await $.get('/penilaian/get-history?package=' + package_id + '&type=' + vType + '&sub=' +
+                let response = await $.get(prefix_url+'/penilaian/get-history?package=' + package_id + '&type=' + vType + '&sub=' +
                     _histId);
                 console.log(response)
                 $.each(response['data'], function (k, v) {
@@ -1077,7 +1076,7 @@
                     break;
             }
             try {
-                let response = await $.get('/penilaian/last-update?package=' + package_id + '&type=' + vType);
+                let response = await $.get(prefix_url+'/penilaian/last-update?package=' + package_id + '&type=' + vType);
                 if (response['data'] !== null) {
                     let updated_at = getCurrentDateString(new Date(response['data']['updated_at']));
                     let name = response['data']['sub_indicator']['name'];
@@ -1095,7 +1094,7 @@
 
         async function setScore(sub, value) {
             try {
-                let response = await $.post('/penilaian/set-score', {
+                let response = await $.post(prefix_url+'/penilaian/set-score', {
                     _token: '{{ csrf_token() }}',
                     sub_indicator: sub,
                     value: value,
@@ -1238,7 +1237,7 @@
                     break;
             }
             try {
-                let response = await $.get('/penilaian/radar?package=' + package_id + '&type=' + vType);
+                let response = await $.get(prefix_url+'/penilaian/radar?package=' + package_id + '&type=' + vType);
                 setComulative(response['comulative']);
                 penilaian(response['data']['score_count']);
                 chart(response['data']);
@@ -1297,7 +1296,7 @@
 
         async function getDetailPackage(pid) {
             try {
-                let response = await $.get('/package/data-detail?package=' + pid);
+                let response = await $.get(prefix_url+'/package/data-detail?package=' + pid);
                 if (response['code'] === 200) {
                     $('#paketkonstruksi').val(response['data']['name']);
                     $('#penggunajasa').val(response['data']['ppk']['name']);
@@ -1426,7 +1425,7 @@
         async function getAllCumulative() {
             try {
                 let el = $('#result-container');
-                let response = await $.get('/penilaian/get-all-cumulative?package=' + package_id);
+                let response = await $.get(prefix_url+'/penilaian/get-all-cumulative?package=' + package_id);
                 el.empty();
                 el.append(elTable());
                 let table = $('#table');
@@ -1503,7 +1502,7 @@
             $.ajax({
                 type: 'POST',
                 data: form_data,
-                url: '/penilaian/set-score',
+                url: prefix_url+'/penilaian/set-score',
                 sync: true,
                 processData: false,
                 contentType: false,
@@ -1533,7 +1532,7 @@
         async function getPackageVendorByYear() {
             try {
                 let tahun = $('#year-list').val();
-                let response = await $.get('/penilaian/' + _vId + '/vendor/package?tahun=' + tahun);
+                let response = await $.get(prefix_url+'/penilaian/' + _vId + '/vendor/package?tahun=' + tahun);
                 console.log(response);
                 let el = $('#package-list');
                 el.empty();

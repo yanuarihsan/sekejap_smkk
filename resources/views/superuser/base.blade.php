@@ -65,7 +65,7 @@
 
                     </div>
 
-                    <a class="lihatsemuanotif" href="/peringatan">Lihat Semua</a>
+                    <a class="lihatsemuanotif" href="{{ env("PREFIX_URL") }}/peringatan">Lihat Semua</a>
                 </div>
             </div>
 
@@ -76,8 +76,8 @@
                     Hi, {{ auth()->user()->username }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" type="button" href="/profile">Profile</a>
-                    <a class="dropdown-item" type="button" href="/logout">logout</a>
+                    <a class="dropdown-item" type="button" href="{{ env("PREFIX_URL") }}/profile">Profile</a>
+                    <a class="dropdown-item" type="button" href="{{ env("PREFIX_URL") }}/logout">logout</a>
                 </div>
             </div>
 
@@ -91,25 +91,25 @@
                         <span class="nav_logo-name">Evaluasi Kinerja</span> </a>
 
                     <div id="sidebar" class="nav_list">
-                        <a href="/" id="dashboard" class="nav_link "> <i class='bx bx-grid-alt nav_icon'></i>
+                        <a href="{{ env("PREFIX_URL") }}/" id="dashboard" class="nav_link "> <i class='bx bx-grid-alt nav_icon'></i>
                             <span class="nav_name">Dashboard</span> </a>
                         @if (auth()->user()->roles[0] == 'superuser' || auth()->user()->roles[0] == 'admin')
-                            <a href="/users" id="users" class="nav_link"> <i class='bx bx-user nav_icon'></i>
+                            <a href="{{ env("PREFIX_URL") }}/users" id="users" class="nav_link"> <i class='bx bx-user nav_icon'></i>
                                 <span class="nav_name">Users</span> </a>
-                            <a href="/ppk" id="ppk" class="nav_link"> <i
+                            <a href="{{ env("PREFIX_URL") }}/ppk" id="ppk" class="nav_link"> <i
                                     class='bx bx-message-square-detail nav_icon'></i> <span
                                     class="nav_name">PPK</span> </a>
-                            <a href="/paket-konstruksi" id="paket-konstruksi" class="nav_link"> <i
+                            <a href="{{ env("PREFIX_URL") }}/paket-konstruksi" id="paket-konstruksi" class="nav_link"> <i
                                     class='bx bx-building-house'></i>
                                 <span class="nav_name">Paket Konstruksi</span> </a>
-                            <a href="/indikator" id="indikator" class="nav_link"> <i
+                            <a href="{{ env("PREFIX_URL") }}/indikator" id="indikator" class="nav_link"> <i
                                     class='bx bx-doughnut-chart'></i>
                                 <span class="nav_name">Indikator</span> </a>
                         @endif
-                        <a href="/penilaian" id="penilaian" class="nav_link"> <i
+                        <a href="{{ env("PREFIX_URL") }}/penilaian" id="penilaian" class="nav_link"> <i
                                 class='bx bxs-bar-chart-square'></i>
                             <span class="nav_name">Penilaian</span> </a>
-						<a href="/perlem" id="penilaianperlem" class="nav_link"> <i
+						<a href="{{ env("PREFIX_URL") }}/perlem" id="penilaianperlem" class="nav_link"> <i
                                 class='bx bxs-bar-chart-square'></i>
                             <span class="nav_name">Penilaian Perlem 4</span> </a>
 
@@ -150,7 +150,7 @@
 
     {{-- <script src="{{ asset('js/myStyle.js') }}"></script> --}}
     <script>
-
+        var prefix_url = '{{ env("PREFIX_URL") }}';
         function checkSessionYear() {
             let value = sessionStorage.getItem('year');
             if (value === null || value === undefined) {
@@ -171,7 +171,7 @@
         })
 
         function showNotif() {
-            $.get('/show-notif?limit=5', function(data) {
+            $.get(prefix_url+'/show-notif?limit=5', function(data) {
                 $('#notif').empty();
                 if (data) {
                     console.log('anuu ', data);
@@ -216,7 +216,7 @@
         }
 
         function notifUnread() {
-            $.get('/show-notif-unread', function(data) {
+            $.get(prefix_url+'/show-notif-unread', function(data) {
                 if (data > 0) {
                     $('#badge').html(
                         '<span class="position-absolute top-0  translate-middle badge rounded-pill bg-danger" style="left: 63% !important;">' +
@@ -228,12 +228,9 @@
         function broadcum() {
             var brod;
             if (lok1) {
-                brod =
-                    "<a href='/' class='me-1'><span><i class='bx bx-home me-1 t-text-color2'></i></span> Dashboard</a> <i class='bx bx-chevron-right me-1 c-text'></i> <a class='me-1' href='/" +
-                    lok1 + "'>" + lok1 +
-                    "</a>"
+                brod = '<a href="'+prefix_url+'/" class="me-1"><span><i class="bx bx-home me-1 t-text-color2"></i></span> Dashboard</a><i class="bx bx-chevron-right me-1 c-text"></i><a class="me-1" href="'+prefix_url+'/'+lok1+'">'+lok1+'</a>';
                 if (lok2) {
-                    brod = brod + " <i class='bx bx-chevron-right me-1 c-text'></i> <a class='me-1' href='/" + lok1 +
+                    brod = brod + " <i class='bx bx-chevron-right me-1 c-text'></i> <a class='me-1' href='"+prefix_url+"/" + lok1 +
                         "/" + lok2 +
                         "/" + lok3 +
                         "'>" + lok2 + "</a>"

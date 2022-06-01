@@ -573,7 +573,7 @@
         }
 
         function SaveNote() {
-            saveData('Catatan', 'form-note', '/penilaian/add-note', afterSaveNote)
+            saveData('Catatan', 'form-note', prefix_url+'/penilaian/add-note', afterSaveNote)
             return false;
         }
 
@@ -629,7 +629,7 @@
             }
             try {
                 el.empty();
-                let response = await $.get('/penilaian/results?package=' + package_id + '&type=' + vType);
+                let response = await $.get(prefix_url+'/penilaian/results?package=' + package_id + '&type=' + vType);
                 let data = response['data']['indicator'];
                 el.append(elTable());
                 let table = $('#table');
@@ -760,7 +760,7 @@
                         break;
                 }
                 el.empty();
-                let response = await $.get('/penilaian/get-history?package=' + package_id + '&type=' + vType + '&sub=' +
+                let response = await $.get(prefix_url+'/penilaian/get-history?package=' + package_id + '&type=' + vType + '&sub=' +
                     _histId);
                 console.log(response)
                 $.each(response['data'], function(k, v) {
@@ -787,7 +787,7 @@
                     break;
             }
             try {
-                let response = await $.get('/penilaian/last-update?package=' + package_id + '&type=' + vType);
+                let response = await $.get(prefix_url+'/penilaian/last-update?package=' + package_id + '&type=' + vType);
                 if (response['data'] !== null) {
                     let updated_at = getCurrentDateString(new Date(response['data']['updated_at']));
                     let name = response['data']['sub_indicator']['name'];
@@ -805,7 +805,7 @@
 
         async function setScore(sub, value) {
             try {
-                let response = await $.post('/penilaian/set-score', {
+                let response = await $.post(prefix_url+'/penilaian/set-score', {
                     _token: '{{ csrf_token() }}',
                     sub_indicator: sub,
                     value: value,
@@ -905,7 +905,7 @@
                     break;
             }
             try {
-                let response = await $.get('/penilaian/radar?package=' + package_id + '&type=' + vType);
+                let response = await $.get(prefix_url+'/penilaian/radar?package=' + package_id + '&type=' + vType);
                 setComulative(response['comulative']);
                 penilaian(response['data']['score_count']);
                 chart(response['data']);

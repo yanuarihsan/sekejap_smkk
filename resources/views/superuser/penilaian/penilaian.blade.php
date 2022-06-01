@@ -43,7 +43,7 @@
         var table;
 
         function datatable() {
-            var url = 'penilaian/datatable';
+            var url = prefix_url+'penilaian/datatable';
             if (getParameter('vendor')){
                 url = url+'/vendor/'+getParameter('vendor')
             }
@@ -115,7 +115,7 @@
                         "data": 'id',
                         "width": '100',
                         "render": function (data, type, row, meta) {
-                            return '<a href="/penilaian/detail/' + data + '" class="bt-primary-xsm" data-id="' + data + '" id="editData">Detail</a>'
+                            return '<a href="'+prefix_url+'/penilaian/detail/' + data + '" class="bt-primary-xsm" data-id="' + data + '" id="editData">Detail</a>'
                         }
                     },
                 ]

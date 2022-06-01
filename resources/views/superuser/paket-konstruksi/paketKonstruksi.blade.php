@@ -214,7 +214,7 @@
                         "data": 'id',
                         "width": '100',
                         "render": function (data, type, row, meta) {
-                            return '<a href="/paket-konstruksi/detail/' + data + '" class="btn btn-sm btn-success btn-sm" style="border-radius: 50px" data-id="' + data + '" id="editData"><i class="bx bx-edit"></i></a>'
+                            return '<a href="'+prefix_url+'/paket-konstruksi/detail/' + data + '" class="btn btn-sm btn-success btn-sm" style="border-radius: 50px" data-id="' + data + '" id="editData"><i class="bx bx-edit"></i></a>'
                         }
                     },
                 ]

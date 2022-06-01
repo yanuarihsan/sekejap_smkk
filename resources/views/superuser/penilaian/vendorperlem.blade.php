@@ -61,14 +61,14 @@
         function getVendor(form) {
             var vendor = $('#menu-vendor');
             vendor.empty();
-            $.get('/vendor',form, function(data) {
+            $.get(prefix_url+'/vendor',form, function(data) {
                 console.log(data);
                 let allVendor = data.length;
                 let ongoing = 0;
                 $.each(data, function(key, value) {
                     // vendor.append(elVendor(value));
                     ongoing += value['package_vendor_going'].length;
-                    vendor.append(' <div class="items-tab col-3 mb-4"><a href="/perlem/' + value[
+                    vendor.append(' <div class="items-tab col-3 mb-4"><a href="'+prefix_url+'/perlem/' + value[
                             'id'] +
                         '/vendor" class="card-vendor d-block c-text card-user" id="">\n' +
                         '                    <div class="d-flex justify-content-left">\n' +

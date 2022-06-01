@@ -207,12 +207,12 @@
                 })
                 return false
             }
-            saveData('Sanggah', 'form', '/peringatan/claim', aftersave)
+            saveData('Sanggah', 'form', prefix_url+'/peringatan/claim', aftersave)
             return false;
         }
 
         function aftersave() {
-            window.location.href = '/peringatan';
+            window.location.href = prefix_url+'/peringatan';
         }
     </script>
 @endsection

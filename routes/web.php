@@ -13,24 +13,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/login', [\App\Http\Controllers\AuthController::class, 'pageLogin'])->name('login');
-Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
-Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 
-Route::get('/indicators', [\App\Http\Controllers\Superadmin\IndicatorController::class, 'index']);
-Route::get('/package', [\App\Http\Controllers\PackageController::class, 'index']);
-Route::get('/ppk', [\App\Http\Controllers\PPKController::class, 'index']);
-Route::get('/accessor-ppk', [\App\Http\Controllers\AccessorPpkController::class, 'index']);
-Route::post('/accessor-ppk/create', [\App\Http\Controllers\AccessorPpkController::class, 'store']);
+Route::get('/', function (){
+    return redirect(env('prefix_url'));
+});
+Route::prefix('/evaluasi_kinerja')->group(function (){
+    Route::get('/login', [\App\Http\Controllers\AuthController::class, 'pageLogin'])->name('login');
+    Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
+    Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
+    Route::get('/indicators', [\App\Http\Controllers\Superadmin\IndicatorController::class, 'index']);
+    Route::get('/package', [\App\Http\Controllers\PackageController::class, 'index']);
+    Route::get('/ppk', [\App\Http\Controllers\PPKController::class, 'index']);
+    Route::get('/accessor-ppk', [\App\Http\Controllers\AccessorPpkController::class, 'index']);
+    Route::post('/accessor-ppk/create', [\App\Http\Controllers\AccessorPpkController::class, 'store']);
+    Route::get(
+        '/login',
+        function () {
+            return view('login');
+        }
+    )->middleware('guest');
+});
 
-Route::get(
-    '/login',
-    function () {
-        return view('login');
-    }
-);
 
-Route::prefix('/')->middleware('auth')->group(
+
+Route::prefix('/evaluasi_kinerja')->middleware('auth')->group(
     function () {
         Route::get('/',[\App\Http\Controllers\DashboardController::class,'index']);
         Route::get('/show-notif', [\App\Http\Controllers\NotificationController::class, 'notif']);

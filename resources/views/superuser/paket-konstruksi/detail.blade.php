@@ -132,7 +132,7 @@
         }
 
         function SaveAddendum() {
-            saveData('Tambah Data Addendum', 'form-addendum', '/paket-konstruksi/addendum/add', afterSave)
+            saveData('Tambah Data Addendum', 'form-addendum', prefix_url+'/paket-konstruksi/addendum/add', afterSave)
             return false;
         }
 
@@ -143,7 +143,7 @@
 
         function datatable() {
 
-            var url = '/paket-konstruksi/addendum-datatable/{{ $data->id }}';
+            var url = prefix_url+'/paket-konstruksi/addendum-datatable/{{ $data->id }}';
             table = $('#table').DataTable({
                 destroy: true,
                 processing: true,

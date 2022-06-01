@@ -51,7 +51,7 @@ class AuthController extends CustomController
         }
 
         if ($this->isAuth($credentials)) {
-            $redirect = '/';
+            $redirect = env('prefix_url').'/';
 
 //            return response()->json();
 
@@ -67,7 +67,7 @@ class AuthController extends CustomController
     {
         Auth::logout();
 
-        return redirect('/login');
+        return redirect(env('prefix_url').'/login');
     }
 
 }

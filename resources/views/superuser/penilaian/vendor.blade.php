@@ -66,14 +66,14 @@
             var vendor = $('#menu-vendor');
             let tahun = $('#year-list').val();
             vendor.empty();
-            $.get('/vendor?tahun=' + tahun, form, function (data) {
+            $.get(prefix_url+'/vendor?tahun=' + tahun, form, function (data) {
                 console.log(data);
                 let allVendor = data.length;
                 let ongoing = 0;
                 $.each(data, function (key, value) {
                     // vendor.append(elVendor(value));
                     ongoing += value['package_vendor_going'].length;
-                    vendor.append(' <div class="col-md-3 col-sm-6 mb-4"><a href="/penilaian/' + value[
+                    vendor.append(' <div class="col-md-3 col-sm-6 mb-4"><a href="'+prefix_url+'/penilaian/' + value[
                             'id'] +
                         '/vendor" class="card-vendor d-block c-text card-user" id="">\n' +
                         '                    <div class="d-flex justify-content-left w-100">\n' +

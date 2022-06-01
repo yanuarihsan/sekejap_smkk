@@ -1,7 +1,7 @@
 var url = window.location.pathname.split("/");
-var lok2 = url[2];
-var lok1 = url[1];
-var lok3 = url[3];
+var lok2 = url[3];
+var lok1 = url[2];
+var lok3 = url[4];
 $(document).ready(function () {
     // $(".dropdown-toggle").dropdown();
     setAktiv();

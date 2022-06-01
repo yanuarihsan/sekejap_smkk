@@ -92,18 +92,18 @@
             $('.trInput').remove();
             var id = $(this).data('id');
 			var options = '';
-			  $.get('/indikator/get-perlem', function (data) {				
+			  $.get(prefix_url+'/indikator/get-perlem', function (data) {
 					$.each(data, function(index, value) {
 						options += '<option value="' + value.id + '" text="' + value.name + '" />';
 					});
 			  });
-			  
+
             $('#table' + id + ' tr:last').after('<tr id="trInput" class="trInput">' +
                 '                                   <td colspan="2"><input id="textNameSub" data-id-indikator="' + id + '" type="text" class="form-control" name="name" value="" required></td>' +
-               		                                   
+
 				'<td class="text-center"><select class="form-control" id="perlem"> <option value="">Pilih Kategori</option><option value="1">Kualitas dan Kuantitas</option><option value="2">Biaya</option><option value="3">Waktu</option><option value="4">Layanan</option></select></td>' +
-                
-				
+
+
 				'									<td class="text-center"><a class="btn btn-sm btn-success me-2"  style="border-radius: 50px; width: 50px" data-id-indikator="' +
                 id + '" id="saveSubIndicator"><i class=\'bx bxs-save\'></i></a>' +
                 '                                   <a class="btn btn-sm btn-danger"  style="border-radius: 50px; width: 50px" data-id-indikator="' +
@@ -122,9 +122,9 @@
             idIndikator = $(this).data('id-indikator')
             $item.html('' +
                 '                                   <td colspan="2"><input type="text" class="form-control" name="name" value="' +
-                $(this).data('name') + '" required></td>' + 
+                $(this).data('name') + '" required></td>' +
 				'<td class="text-center"><input id="text" data-id-indikatorperlem="" type="text" class="form-control" name="name" value="" required></td>' +
-                
+
                 '                                   <td class="text-center"><a class="btn btn-sm btn-success me-2"  style="border-radius: 50px; width: 50px" data-id="' +
                 idSubIndikator + '" data-id-indikator="' + idIndikator +
                 '" id="saveSubIndicator"><i class=\'bx bxs-save\'></i></a>' +
@@ -185,7 +185,7 @@
                 'cari': '{{ request('cari') }}'
             }
 
-            $.get('/indikator/get-all', filter, function (data) {
+            $.get(prefix_url+'/indikator/get-all', filter, function (data) {
                 $('#rowIndikator').empty();
                 $.each(data, function (key, value) {
                     var name = value['name'];
@@ -194,7 +194,7 @@
                         '                        <div class="card-indikator table-container">\n' +
                         '                            <div class="header-indikator">\n' +
                         '                                <div class="row"><p class="mb-0 fw-bold">' +name + ' <span class="badge bg-primary">Bobot : ' + value['weight'] + '</span> </p>'+
-                       
+
                         '                                      ' +
                         '                                 </div>' +
                         '                               <div> '+
@@ -243,7 +243,7 @@
         }
 
         function getSubIndikator(id) {
-            $.get('/indikator/' + id + '/sub', function (data) {
+            $.get(prefix_url+'/indikator/' + id + '/sub', function (data) {
 				var perlem= data.indicator_perlem !== null ? data.indicator_perlem.name : 'Pilih Indikator';
                 $('#tbody' + id).empty();
                 $.each(data, function (k, v) {

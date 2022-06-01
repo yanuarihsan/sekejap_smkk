@@ -60,7 +60,7 @@
         });
 
         function getCount(tahun) {
-            $.get('/get-count-dashboard?tahun='+tahun, function (data) {
+            $.get(prefix_url+'/get-count-dashboard?tahun='+tahun, function (data) {
                 console.log(data)
                 $('#tablist #indicator .number-card').html(data['indicator'])
                 $('#tablist #package .number-card').html(data['package'])

@@ -208,7 +208,7 @@
                             <textarea class="form-control" id="faktorupdate" rows="3" readonly></textarea>
                         </div>
                         <div class="form-group mb-3">
-                            <form action="/perlem/{{ $vendor->id }}/vendor/cetak" target="_blank" method="post" id="form-cetak">
+                            <form action="{{ env('PREFIX_URL') }}/perlem/{{ $vendor->id }}/vendor/cetak" target="_blank" method="post" id="form-cetak">
                                 @csrf
                                 <input type="hidden" name="hidden_html" id="hidden_html">
                                 <input type="hidden" name="hidden_package" id="hidden_package">
@@ -332,7 +332,7 @@
                         </div>
                     </div>
 
-                  
+
                 </div>
             </div>
         </div>
@@ -519,13 +519,12 @@
             $('#brodcum').html('');
             let bread = '';
             if (lok1) {
-                console.log('testtis');
                 bread =
-                    "<a href='/' class='me-1'><span><i class='bx bx-home me-1 t-text-color2'></i></span> Dashboard</a> <i class='bx bx-chevron-right me-1 c-text'></i> <a class='me-1' href='/" +
+                    "<a href="+prefix_url+"'/' class='me-1'><span><i class='bx bx-home me-1 t-text-color2'></i></span> Dashboard</a> <i class='bx bx-chevron-right me-1 c-text'></i> <a class='me-1' href="+prefix_url+"'/" +
                     lok1 + "'>" + lok1 +
                     "</a>"
                 if (lok2) {
-                    bread = bread + " <i class='bx bx-chevron-right me-1 c-text'></i> <a class='me-1' href='/" + lok1 +
+                    bread = bread + " <i class='bx bx-chevron-right me-1 c-text'></i> <a class='me-1' href='"+prefix_url+"/" + lok1 +
                         "/" + lok2 +
                         "/" + lok3 +
                         "'>{{ $vendor->vendor->name }}</a>"
@@ -819,13 +818,13 @@
         });
 
         function Save() {
-            saveData('Upload File', 'form', '/perlem/upload', afterSaveFile)
+            saveData('Upload File', 'form', prefix_url+'/perlem/upload', afterSaveFile)
             return false;
         }
 
 
         function SaveNote() {
-            saveData('Catatan', 'form-note', '/perlem/add-note', afterSaveNote)
+            saveData('Catatan', 'form-note', prefix_url+'/perlem/add-note', afterSaveNote)
             return false;
         }
 
@@ -881,7 +880,7 @@
             }
             try {
                 el.empty();
-                let response = await $.get('/perlem/results?package=' + package_id + '&type=' + vType);
+                let response = await $.get(prefix_url+'/perlem/results?package=' + package_id + '&type=' + vType);
                 if (response['code'] === 200) {
                     let data = response['data']['indicator'];
                     el.append(elTable());
@@ -1034,7 +1033,7 @@
                         break;
                 }
                 el.empty();
-                let response = await $.get('/perlem/get-history?package=' + package_id + '&type=' + vType + '&sub=' +
+                let response = await $.get(prefix_url+'/perlem/get-history?package=' + package_id + '&type=' + vType + '&sub=' +
                     _histId);
                 console.log(response)
                 $.each(response['data'], function (k, v) {
@@ -1061,7 +1060,7 @@
                     break;
             }
             try {
-                let response = await $.get('/perlem/last-update?package=' + package_id + '&type=' + vType);
+                let response = await $.get(prefix_url+'/perlem/last-update?package=' + package_id + '&type=' + vType);
                 if (response['data'] !== null) {
                     let updated_at = getCurrentDateString(new Date(response['data']['updated_at']));
                     let name = response['data']['sub_indicator']['name'];
@@ -1079,7 +1078,7 @@
 
         async function setScore(sub, value) {
             try {
-                let response = await $.post('/perlem/set-score', {
+                let response = await $.post(prefix_url+'/perlem/set-score', {
                     _token: '{{ csrf_token() }}',
                     sub_indicator: sub,
                     value: value,
@@ -1222,7 +1221,7 @@
                     break;
             }
             try {
-                let response = await $.get('/perlem/radar?package=' + package_id + '&type=' + vType);
+                let response = await $.get(prefix_url+'/perlem/radar?package=' + package_id + '&type=' + vType);
                 setComulative(response['comulative']);
                 penilaian(response['data']['score_count']);
                 chart(response['data']);
@@ -1281,7 +1280,7 @@
 
         async function getDetailPackage(pid) {
             try {
-                let response = await $.get('/package/data-detail?package=' + pid);
+                let response = await $.get(prefix_url+'/package/data-detail?package=' + pid);
                 if (response['code'] === 200) {
                     $('#paketkonstruksi').val(response['data']['name']);
                     $('#penggunajasa').val(response['data']['ppk']['name']);
@@ -1406,7 +1405,7 @@
         async function getAllCumulative() {
             try {
                 let el = $('#result-container');
-                let response = await $.get('/perlem/get-all-cumulative?package=' + package_id);
+                let response = await $.get(prefix_url+'/perlem/get-all-cumulative?package=' + package_id);
                 el.empty();
                 el.append(elTable());
                 let table = $('#table');
@@ -1483,7 +1482,7 @@
             $.ajax({
                 type: 'POST',
                 data: form_data,
-                url: '/perlem/set-score',
+                url: prefix_url+'/perlem/set-score',
                 sync: true,
                 processData: false,
                 contentType: false,
