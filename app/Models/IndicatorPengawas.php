@@ -5,21 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Indicator extends Model
+class IndicatorPengawas extends Model
 {
     use HasFactory;
-    protected $table = 'indicator';
+    protected $table = 'indicator_pengawas';
 
     protected $fillable = [
-        'name',
-        'weight'
+        'name'
+       
     ];
 
-    public function subIndicator()
+    public function subIndicatorPengawas()
     {
-        return $this->hasMany(SubIndicator::class, 'indicator_id');
+        return $this->hasMany(SubIndicatorPengawasclass, 'indicator_pengawas_id');
     }
-
+	
+	public function subsubIndicatorPengawas()
+    {
+        return $this->hasMany(SubsubIndicatorPengawas::class, 'indicator_pengawas_id');
+    }
+	
     public function scopeFilter($query, $filter)
     {
         $query->when(

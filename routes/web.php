@@ -127,8 +127,8 @@ Route::prefix('/')->middleware('auth')->group(
                 Route::get('/get-historyawal', [\App\Http\Controllers\PerlemController::class, 'getScoreHistoryawal']);
                 Route::get('/get-all-cumulative', [\App\Http\Controllers\PerlemController::class, 'getAllCumulative']);
                 Route::get('/get-last-history', [\App\Http\Controllers\PerlemController::class, 'getLastScoreHistory']);
-                Route::get('/{id}/vendor', [\App\Http\Controllers\VendorController::class, 'detailVendor']);
-                Route::post('/{id}/vendor/cetak', [\App\Http\Controllers\VendorController::class, 'cetakPenilaian']);
+                Route::get('/{id}/vendor', [\App\Http\Controllers\VendorController::class, 'detailPerlemVendor']);
+                Route::post('/{id}/vendor/cetak', [\App\Http\Controllers\VendorController::class, 'cetakPenilaianPerlem']);
             }
         );
 
